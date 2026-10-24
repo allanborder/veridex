@@ -5,9 +5,32 @@
  * when the backend is unavailable — ANSWER FIRST, VERIFY SECOND.
  */
 
+const isStaticHost = typeof window !== 'undefined' && (
+  window.location.hostname.includes('github.io') ||
+  window.location.hostname.includes('pages.dev')
+);
+
 const API_BASE = '/api/v1';
 
 export async function checkBackendHealth() {
+  if (isStaticHost) {
+    return {
+      status: 'ok',
+      retrieval: true,
+      generation: true,
+      verification: true,
+      models: { embedding: true, generation: true, nli: true },
+      knowledge_base: { documents: 15, records: 62 },
+      system: {
+        ram_used_mb: 78.4,
+        ram_limit_mb: 8192,
+        cpu_percent: 12.0,
+        air_gapped: true,
+        cloud_dependencies: 0,
+        engine: '100% Local CPU-First (Demo Engine)'
+      }
+    };
+  }
   try {
     const res = await fetch(`${API_BASE}/health`, { method: 'GET' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -24,6 +47,9 @@ export async function checkBackendHealth() {
 }
 
 export async function askQuestion(question) {
+  if (isStaticHost) {
+    return simulatePipeline(question);
+  }
   try {
     const res = await fetch(`${API_BASE}/ask`, {
       method: 'POST',
