@@ -149,7 +149,7 @@ export default function BootScreen({ onComplete }) {
           }}
         >
           <img
-            src="/logo.png"
+            src={`${import.meta.env.BASE_URL}logo.png`}
             alt="VERIDEX"
             style={{
               width: '38px',

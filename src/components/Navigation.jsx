@@ -97,7 +97,7 @@ export default function Navigation({ activeTab, setActiveTab }) {
           }}
         >
           <img
-            src="/logo.png"
+            src={`${import.meta.env.BASE_URL}logo.png`}
             alt="VERIDEX Logo"
             style={{ width: '22px', height: '22px', objectFit: 'contain', borderRadius: '5px' }}
           />
