@@ -1,0 +1,210 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   VERIDEX — TRUE LIQUID GLASS / iOS-INSPIRED DESIGN SYSTEM
+   - Near-black spatial canvas (#050507) with radiant ambient light
+   - Authentic translucent Liquid Glass with top specular highlights
+   - Physical spring-like micro-interactions
+   - Semantic status indicators with subtle single-pulse animation
+   ========================================================================== */
+
+:root {
+  /* Apple System Typography Stack */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "SF Mono", Menlo, Monaco, Consolas, "Geist Mono", monospace;
+
+  /* Neutrals & Spatial Palette */
+  --color-bg-base: #050507;
+  --color-bg-subtle: #0b0c10;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #8E8E93;
+  --color-text-tertiary: #636366;
+  --color-text-faint: rgba(255, 255, 255, 0.22);
+
+  /* LEVEL 2: Floating Controls & Navbar Glass */
+  --glass-nav-bg: rgba(255, 255, 255, 0.055);
+  --glass-nav-border: rgba(255, 255, 255, 0.12);
+  --glass-nav-blur: blur(28px) saturate(160%);
+  --glass-nav-shadow: 0 16px 48px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+
+  /* LEVEL 3: Major Content Surfaces (Input, Answers, Sheets) */
+  --glass-surface-bg: rgba(255, 255, 255, 0.048);
+  --glass-surface-border: rgba(255, 255, 255, 0.11);
+  --glass-surface-blur: blur(32px) saturate(160%);
+  --glass-surface-shadow: 0 24px 72px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+
+  /* LEVEL 4: Secondary Layered Cards (Evidence rows, items) */
+  --glass-card-bg: rgba(255, 255, 255, 0.035);
+  --glass-card-border: rgba(255, 255, 255, 0.08);
+  --glass-card-blur: blur(20px) saturate(130%);
+  --glass-card-shadow: 0 10px 30px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.10);
+
+  /* Apple Accent Blue */
+  --color-apple-blue: #0A84FF;
+  --color-apple-blue-hover: #0071E3;
+
+  /* Semantic Status Colors (Restrained, Purposeful) */
+  --color-status-supported: #30D158;
+  --color-status-supported-bg: rgba(48, 209, 88, 0.09);
+  --color-status-supported-border: rgba(48, 209, 88, 0.28);
+
+  --color-status-uncertain: #FF9F0A;
+  --color-status-uncertain-bg: rgba(255, 159, 10, 0.09);
+  --color-status-uncertain-border: rgba(255, 159, 10, 0.28);
+
+  --color-status-contradicted: #FF453A;
+  --color-status-contradicted-bg: rgba(255, 69, 58, 0.09);
+  --color-status-contradicted-border: rgba(255, 69, 58, 0.28);
+
+  --color-status-abstain: #98989D;
+  --color-status-abstain-bg: rgba(152, 152, 157, 0.09);
+  --color-status-abstain-border: rgba(152, 152, 157, 0.28);
+
+  /* Spring Transitions */
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-fast: 160ms var(--ease-spring);
+  --transition-normal: 240ms var(--ease-spring);
+  --transition-smooth: 350ms var(--ease-spring);
+}
+
+/* Base reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+  overflow-x: hidden;
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* Apple-style Liquid Glass Card Utility with Physical Top Specular Highlight */
+.apple-glass {
+  background: var(--glass-surface-bg);
+  border: 1px solid var(--glass-surface-border);
+  backdrop-filter: var(--glass-surface-blur);
+  -webkit-backdrop-filter: var(--glass-surface-blur);
+  box-shadow: var(--glass-surface-shadow);
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle diagonal light reflection across the glass surface */
+.apple-glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.22) 35%, rgba(255, 255, 255, 0.28) 50%, rgba(255, 255, 255, 0.22) 65%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Apple-style Interactive Elements */
+.apple-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-weight: 500;
+  transition: transform var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast);
+  cursor: pointer;
+  user-select: none;
+}
+
+.apple-btn:hover {
+  transform: scale(1.02);
+}
+
+.apple-btn:active {
+  transform: scale(0.97);
+}
+
+/* Materialize with Physical Depth */
+@keyframes appleMaterialize {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.99);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.animate-materialize {
+  animation: appleMaterialize 320ms var(--ease-spring) forwards;
+}
+
+/* Modal / Contextual Sheet Spring In */
+@keyframes appleSheetIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-sheet-in {
+  animation: appleSheetIn 340ms var(--ease-spring) forwards;
+}
+
+/* Single Pulse Status Glow Animation */
+@keyframes statusGlowPulse {
+  0%   { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+  50%  { transform: scale(1.03); box-shadow: 0 0 16px var(--pulse-color, rgba(48, 209, 88, 0.4)); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+.animate-status-pulse {
+  animation: statusGlowPulse 600ms var(--ease-spring) 1;
+}
+
+/* Ambient Pulse / Slow Drift Keyframes */
+@keyframes ambientDrift1 {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  100% { transform: translate(28px, 22px) scale(1.04); }
+}
+
+@keyframes ambientDrift2 {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  100% { transform: translate(-26px, 28px) scale(0.96); }
+}
+
+@keyframes ambientDrift3 {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  100% { transform: translate(20px, -24px) scale(1.03); }
+}
+
+/* Accessibility: prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
